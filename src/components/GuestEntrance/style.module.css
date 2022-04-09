@@ -1,0 +1,22 @@
+.guest-entrance div label {
+  padding-right: 0.3rem;
+}
+
+.guest-entrance button {
+  margin-top: 1.5rem;
+}
+
+.guestInpt {
+  border-radius: 0.7rem;
+  margin: 2rem;
+}
+
+.guest-entrance {
+  text-align: center;
+}
+
+.guest-entrance-card {
+  margin: 2rem auto;
+  width: 90%;
+  font-size: 1rem;
+}
