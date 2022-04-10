@@ -15,14 +15,13 @@
 .button {
   cursor: pointer;
   border-radius: 0.7rem;
-  width: 10rem;
+  width: 6rem;
   height: 2rem;
-  font-weight: 550;
-  /* font-size: large; */
+  font-weight: 500;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .button:hover {
   background-color: rgb(244, 96, 96);
-  font-weight: 600;
+  font-weight: 500;
 }
