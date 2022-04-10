@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import classes from './style.module.css';
-import Card from '../../UI/Card';
-import { generateSlug } from 'random-word-slugs';
+import GlobalStyling from '../../GlobalStyling';
 import axios from 'axios';
-import { message } from 'antd';
+import { notification } from 'antd';
+import randomWord from 'random-words';
 
 const ChooseWord = (props) => {
-  const [words, setWords] = useState(generateSlug(3, { format: 'title' }).split(' '));
+  const [words, setWords] = useState(randomWord({ exactly: 3 }));
   const [selectedWord, setSelectedWord] = useState('');
   const sessionId = props.sessionId;
 
@@ -19,17 +19,16 @@ const ChooseWord = (props) => {
         .catch((error) => {
           console.error(error);
           if (error.response) {
-            message.error(error.response.data);
+            notification.error({ description: error.response.data, duration: 2 });
           }
         });
     }
 
-    // goTo(`${sessionId}/draw`);
   }, [selectedWord, sessionId]);
 
   const onSelectHandler = (event) => setSelectedWord(() => event.target.value);
   return (
-    <Card className={classes['choose-words']}>
+    <GlobalStyling className={classes['choose-words']}>
       <p>Pick a word from below to draw:</p>
       <div className={classes.words}>
         {words &&
@@ -46,7 +45,7 @@ const ChooseWord = (props) => {
             </div>
           ))}
       </div>
-    </Card>
+    </GlobalStyling>
   );
 };
 

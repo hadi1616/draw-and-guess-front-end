@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import classes from './style.module.css';
-import Card from '../../UI/Card';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Spin, message } from 'antd';
+import GlobalStyling from '../../GlobalStyling';
+import { Spin, notification } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const Waiting = (props) => {
-  //showElements is determined according to playerType
+
   const [showElements, setShowElements] = useState(false);
 
+  const sharedURL = window.location.href;
+
   const showElementsHandler = (value) => setShowElements(value);
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 40, color: 'black' }} spin />;
 
   const onStartHandler = () => {
 
@@ -20,7 +24,7 @@ const Waiting = (props) => {
       .catch((error) => {
         console.error(error);
         if (error.response) {
-          message.error(error.response.data);
+          notification.error({ description: error.response.data, duration: 2 });
         }
       });
   };
@@ -33,24 +37,32 @@ const Waiting = (props) => {
     }
   }, [props.playerType]);
 
-  const sharedURL = window.location.href; //return the current url of the website
+
+  const askingPlayerToCopy = "Please copy this link to another browser:"
+  const copyURL = `${sharedURL}`
 
   let showSpinOrStart = (
+
     <>
-      <Spin size='large' tip={showElements ? 'Waiting for the second player to join...' : 'Waiting for host to start game...'} />
-      {showElements && (
-        <div className={classes.clipboard}>
-          <input type='text' value={sharedURL} readOnly />
-          <CopyToClipboard text={sharedURL} onCopy={() => message.success('Copied', 0.5)}>
-            <button className={classes['copy-to-clipboard-btn']}> Copy to clipboard</button>
-          </CopyToClipboard>
-        </div>
-      )}
+      <Spin indicator={antIcon} />
+
+      <div className={classes.clipboard}>
+        <span className='waiting'>
+          {showElements ? 'Please wait for another player to join the link' : 'Waiting for admin to start game...'}
+        </span>
+        {showElements &&
+          <div>
+            <text>{askingPlayerToCopy + " "}{<b>{copyURL}</b>}</text>
+          </div>
+        }
+      </div>
     </>
+
   );
 
-  //show start game only for the host
+  //start game relevat for the host 
   if (showElements && props.guestId) {
+
     showSpinOrStart = (
       <button onClick={onStartHandler} className={classes.btn}>
         Start Game
@@ -59,16 +71,17 @@ const Waiting = (props) => {
   }
 
   return (
-    <Card className={classes.waiting}>
+    <GlobalStyling className={classes.waiting}>
       {props.hostName && (
-        <Card className={classes.players}>{props.hostName}</Card>
+        <GlobalStyling className={classes.players}>{props.hostName}</GlobalStyling>
       )}
       {props.guestName && (
-        <Card className={classes.players}>{props.guestName}</Card>
+        <GlobalStyling className={classes.players}>{props.guestName}</GlobalStyling>
       )}
       <div className={classes['spin-or-button']}>{showSpinOrStart}</div>
-    </Card>
+    </GlobalStyling>
   );
 };
 
 export default Waiting;
+

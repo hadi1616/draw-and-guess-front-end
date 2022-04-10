@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Drawing from '../views/Drawing';
 import ChooseWord from '../views/ChooseWord';
@@ -6,8 +6,7 @@ import Guessing from '../views/Guessing';
 import Waiting from '../views/Waiting';
 import GuestEntrance from '../GuestEntrance';
 import axios from 'axios';
-import { message } from 'antd';
-
+import { notification } from 'antd';
 
 const GameSession = (props) => {
 
@@ -29,7 +28,8 @@ const GameSession = (props) => {
 
 
   const { id: sessionId } = useParams();
-  const goTo = useNavigate();
+
+  const redirectTo = useNavigate();
 
   const { guestId, hostName, guestName, playerType, status, hostTurn, drawData, wordPicked, intervalID } = allData;
 
@@ -65,13 +65,13 @@ const GameSession = (props) => {
     })
   };
 
-  useEffect(() => {
-    window.onbeforeunload = (event) => { // before closing the window do something
+  useEffect(() => { //after closing the window this api requst will excuted
+    window.onbeforeunload = (event) => {
       event.preventDefault();
       event.returnValue = '';
       fetch(`${props.apiUrl}/api/update/session/status`, {
         method: 'PUT',
-        keepalive: true,  // after closing the window this api requst / useffect will excuted
+        keepalive: true,  // only using fetch we can change the keepalive value
         headers: {
           'Content-Type': 'application/json',
         },
@@ -92,12 +92,11 @@ const GameSession = (props) => {
     playerTypeHandler(props.playerType);
   }, [props.playerType]);
 
-  //////////////////////////////////////////////
+
 
 
   useEffect(() => {
-    //an api reuest will be fired every 2 seconds.
-    //intervalID will be stored in the session game state to clear the interval when a session expires.
+
     if (status === 'pending') {
       const identifier = setInterval(() => {
         intervalIdHandler(identifier);
@@ -108,18 +107,15 @@ const GameSession = (props) => {
           .catch((error) => {
             console.error(error);
             if (error.response) {
-              message.error(error.response.data);
+              notification.error({ description: error.response.data, duration: 2 });
             }
           });
       }, 2000);
     }
 
     if (status === 'expired') {
-      goTo('/');
-      message.error(
-        'Game session has been ended, you can create a new one.',
-        3
-      );
+      redirectTo('/');
+      notification.error({ description: 'Game session has been ended, you can create a new one.', duration: 2 });
       return () => {
         clearInterval(intervalID);
       };
@@ -127,7 +123,7 @@ const GameSession = (props) => {
   }, [sessionId, status, props.apiUrl]);
 
 
-  //////////////////////////////////////////////
+
 
 
   if (!playerType && status === 'pending') {
@@ -166,9 +162,6 @@ const GameSession = (props) => {
 
 
 
-
-
-
     if (!hostTurn && playerType === 'guest') {
       return wordPicked ? (
         <Drawing apiUrl={props.apiUrl} sessionId={sessionId} />
@@ -200,7 +193,7 @@ const GameSession = (props) => {
       <button
         onClick={() => {
           clearInterval(intervalID);
-          goTo('/');
+          redirectTo('/');
         }}
       >
         Redirect

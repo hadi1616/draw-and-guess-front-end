@@ -6,7 +6,7 @@
 }
 
 .choose-words input[type='radio'] {
-  display: none;
+  margin-right: 0.5rem;
 }
 
 .words {
@@ -15,7 +15,5 @@
 }
 
 .choice {
-  border: 1px solid rgb(128, 9, 9);
-  padding: 0.2rem;
-  box-shadow: 0 4px 10px rgba(160, 42, 42, 0.25);
+  padding: 0.4rem;
 }

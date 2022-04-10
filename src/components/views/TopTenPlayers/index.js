@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './style.css';
-import { Table, message } from 'antd';
+import { Table, notification } from 'antd';
 import axios from 'axios';
 
 const { Column, ColumnGroup } = Table;
@@ -23,7 +23,7 @@ const TopTenPlayers = (props) => {
       .catch((error) => {
         console.error(error);
         if (error.response) {
-          message.error(error.response.data);
+          notification.error({ description: error.response.data, duration: 2 });
         }
       });
   }, [props.apiUrl]);

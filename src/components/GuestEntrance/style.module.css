@@ -20,3 +20,15 @@
   width: 90%;
   font-size: 1rem;
 }
+
+.joinGameButtn {
+  border-radius: 0.45rem;
+  cursor: pointer;
+  font-size: large;
+  font-weight: 500;
+}
+
+.joinGameButtn:hover {
+  background-color: rgb(108, 243, 108);
+
+}

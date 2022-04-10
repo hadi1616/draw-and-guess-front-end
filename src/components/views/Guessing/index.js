@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import classes from './style.module.css';
 import CanvasDraw from 'react-canvas-draw';
 import axios from 'axios';
-import { message } from 'antd';
+import { notification } from 'antd';
 
 const Guessing = (props) => {
   const loadCanvasRef = useRef();
@@ -20,10 +20,9 @@ const Guessing = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (guessInputRef.current.value.trim().length === 0) {
-      message.error('Empty field is invalid input.', 1);
+      notification.error({ description: 'Empty field is invalid input.', duration: 2 });
       return;
     }
-    //check the guessed word.
     axios.post(`${props.apiUrl}/api/guess/attempt`, {
       sessionId,
       playerId,
@@ -32,18 +31,17 @@ const Guessing = (props) => {
     })
       .then(({ data: isCorrect }) => {
         if (isCorrect) {
-          props.pickWordStateHandler(false); //so when turns switch => enable choosing a word.
-          message.success('You guessed it right!', 2);
-          message.success('Now you are the artist.', 2);
+          props.pickWordStateHandler(false);
+          notification.success({ description: 'nice one, Now you are the artist.', duration: 2 });
         } else {
-          message.warning('Incorrect, try again', 1);
+          notification.warning({ description: 'Incorrect, try again', duration: 2 });
         }
         guessInputRef.current.value = '';
       })
       .catch((error) => {
         console.error(error);
         if (error.response) {
-          message.error(error.response.data);
+          notification.error({ description: error.response.data, duration: 2 });
         }
       });
   };
@@ -51,13 +49,12 @@ const Guessing = (props) => {
   const onLoadHandler = () => {
     axios.post(`${props.apiUrl}/api/get/saved/draw`, { sessionId })
       .then(({ data: drawData }) => {
-        //data returned as object, loadSaveData expect a string(a convertion is done)
-        loadCanvasRef.current.loadSaveData(JSON.stringify(drawData));
+        loadCanvasRef.current.loadSaveData(JSON.stringify(drawData)); //saving the draw as string
       })
       .catch((error) => {
         console.error(error);
         if (error.response) {
-          message.error(error.response.data);
+          notification.error({ description: error.response.data, duration: 2 });
         }
       });
   };

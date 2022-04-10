@@ -1,0 +1,28 @@
+.serverStatusStyling {
+  margin: auto;
+  margin-top: 20px;
+  width: 20%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
+
+.serverStatusStyling p {
+  font-weight: 600;
+  font-size: larger;
+}
+
+
+.button {
+  cursor: pointer;
+  border-radius: 0.7rem;
+  width: 10rem;
+  height: 2rem;
+  font-weight: 550;
+  /* font-size: large; */
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.button:hover {
+  background-color: rgb(244, 96, 96);
+  font-weight: 600;
+}

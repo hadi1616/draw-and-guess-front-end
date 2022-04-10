@@ -9,8 +9,8 @@
   border: 1px solid #0ea500;
   background: #0ea500;
 }
-.btn:hover,
-.btn:active {
+
+.btn:hover {
   background: #4cd840;
   border-color: #4cd840;
 }
