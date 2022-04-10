@@ -22,18 +22,18 @@ const HelthCheck = (props) => {
   const { uptime, date, status } = serverData;
 
   useEffect(() => {
-
-    axios.get(`${props.apiUrl}/api/status`)
-      .then(({ data }) => {
-        concatData(data)
-      })
-      .catch((error) => {
-        console.error(error);
-        if (error.response) {
-          notification.error({ description: 'the server is not up' });
-        }
-      });
-
+    const identifier = setInterval(() => {
+      axios.get(`${props.apiUrl}/api/status`)
+        .then(({ data }) => {
+          concatData(data)
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response) {
+            notification.error({ description: 'the server is not up' });
+          }
+        });
+    }, 1000);
   }, []);
 
 
