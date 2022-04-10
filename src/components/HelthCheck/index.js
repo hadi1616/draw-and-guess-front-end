@@ -51,7 +51,7 @@ const HelthCheck = (props) => {
         <p>{`Server Uptime: ${uptime}`}</p>
         <p>{`Server status: ${status}`}</p>
 
-        <button className={classes.button} onClick={() => { redirectTo('/'); }}>Back to Home page</button>
+        <button className={classes.button} onClick={() => { redirectTo('/'); }}>Home page</button>
       </div>
     </>
 
