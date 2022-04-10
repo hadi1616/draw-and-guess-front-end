@@ -32,7 +32,7 @@ const Guessing = (props) => {
       .then(({ data: isCorrect }) => {
         if (isCorrect) {
           props.pickWordStateHandler(false);
-          notification.success({ description: 'nice one, Now you are the artist.', duration: 2 });
+          notification.success({ description: 'Nice one, Now you can draw.', duration: 2 });
         } else {
           notification.warning({ description: 'Incorrect, try again', duration: 2 });
         }
