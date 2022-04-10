@@ -15,7 +15,6 @@ const HelthCheck = (props) => {
 
   const [serverData, setServerData] = useState({
     uptime: '',
-    date: '',
     status: '',
   })
 
@@ -50,7 +49,6 @@ const HelthCheck = (props) => {
     <>
       <div className={classes.serverStatusStyling}>
         <p>{`Server Uptime: ${uptime}`}</p>
-        <p >{`Current date: ${date}`}</p>
         <p>{`Server status: ${status}`}</p>
 
         <button className={classes.button} onClick={() => { redirectTo('/'); }}>Back to Home page</button>
