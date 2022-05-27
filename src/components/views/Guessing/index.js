@@ -62,7 +62,7 @@ const Guessing = (props) => {
   return (
     <div className={classes.guess}>
       <CanvasDraw ref={loadCanvasRef} disabled hideGrid />
-      <form className={classes['guess-form']} onSubmit={submitHandler}>
+      {props.drawData && <form className={classes['guess-form']} onSubmit={submitHandler}>
         <input
           type='text'
           id='guessing-input'
@@ -72,7 +72,7 @@ const Guessing = (props) => {
         <button className={classes.btn} type='submit'>
           Check
         </button>
-      </form>
+      </form>}
     </div>
   );
 };
